@@ -1,0 +1,11 @@
+framework module LSPatch {
+  umbrella header "LSPatch.h"
+
+  export *
+  module * { export * }
+}
+
+module LSPatch.Swift {
+    header "LSPatch-Swift.h"
+    requires objc
+}

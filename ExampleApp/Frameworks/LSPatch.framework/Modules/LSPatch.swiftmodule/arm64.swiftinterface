@@ -1,0 +1,395 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios11.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name LSPatch
+import Foundation
+@_exported import LSPatch
+import Swift
+public struct Queue<T> {
+  public var isEmpty: Swift.Bool {
+    get
+  }
+  public var count: Swift.Int {
+    get
+  }
+  public mutating func enqueue(_ element: T)
+  public mutating func dequeue() -> T?
+  public var front: T? {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class Singleton {
+  @objc deinit
+}
+public enum SwiftyJSONError : Swift.Int, Swift.Error {
+  case unsupportedType
+  case indexOutOfBounds
+  case elementTooDeep
+  case wrongType
+  case notExist
+  case invalidJSON
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension SwiftyJSONError : Foundation.CustomNSError {
+  public static var errorDomain: Swift.String {
+    get
+  }
+  public var errorCode: Swift.Int {
+    get
+  }
+  public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+public enum Type : Swift.Int {
+  case number
+  case string
+  case bool
+  case array
+  case dictionary
+  case null
+  case unknown
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct JSON {
+  public init(data: Foundation.Data, options opt: Foundation.JSONSerialization.ReadingOptions = []) throws
+  public init(_ object: Any)
+  public init(parseJSON jsonString: Swift.String)
+  public mutating func merge(with other: LSPatch.JSON) throws
+  public func merged(with other: LSPatch.JSON) throws -> LSPatch.JSON
+  public var type: LSPatch.`Type` {
+    get
+  }
+  public var error: LSPatch.SwiftyJSONError? {
+    get
+  }
+  public var object: Any {
+    get
+    set
+  }
+  @available(*, unavailable, renamed: "null")
+  public static var nullJSON: LSPatch.JSON {
+    get
+  }
+  public static var null: LSPatch.JSON {
+    get
+  }
+}
+public enum Index<T> : Swift.Comparable {
+  case array(Swift.Int)
+  case dictionary(Swift.DictionaryIndex<Swift.String, T>)
+  case null
+  public static func == (lhs: LSPatch.Index<T>, rhs: LSPatch.Index<T>) -> Swift.Bool
+  public static func < (lhs: LSPatch.Index<T>, rhs: LSPatch.Index<T>) -> Swift.Bool
+}
+public typealias JSONIndex = LSPatch.Index<LSPatch.JSON>
+public typealias JSONRawIndex = LSPatch.Index<Any>
+extension JSON : Swift.Collection {
+  public typealias Index = LSPatch.JSONRawIndex
+  public var startIndex: LSPatch.JSON.Index {
+    get
+  }
+  public var endIndex: LSPatch.JSON.Index {
+    get
+  }
+  public func index(after i: LSPatch.JSON.Index) -> LSPatch.JSON.Index
+  public subscript(position: LSPatch.JSON.Index) -> (Swift.String, LSPatch.JSON) {
+    get
+  }
+  public typealias Element = (Swift.String, LSPatch.JSON)
+  public typealias Iterator = Swift.IndexingIterator<LSPatch.JSON>
+  public typealias SubSequence = Swift.Slice<LSPatch.JSON>
+  public typealias Indices = Swift.DefaultIndices<LSPatch.JSON>
+}
+public enum JSONKey {
+  case index(Swift.Int)
+  case key(Swift.String)
+}
+public protocol JSONSubscriptType {
+  var jsonKey: LSPatch.JSONKey { get }
+}
+extension Int : LSPatch.JSONSubscriptType {
+  public var jsonKey: LSPatch.JSONKey {
+    get
+  }
+}
+extension String : LSPatch.JSONSubscriptType {
+  public var jsonKey: LSPatch.JSONKey {
+    get
+  }
+}
+extension JSON {
+  public subscript(path: [LSPatch.JSONSubscriptType]) -> LSPatch.JSON {
+    get
+    set
+  }
+  public subscript(path: LSPatch.JSONSubscriptType...) -> LSPatch.JSON {
+    get
+    set
+  }
+}
+extension JSON : Swift.ExpressibleByStringLiteral {
+  public init(stringLiteral value: Swift.StringLiteralType)
+  public init(extendedGraphemeClusterLiteral value: Swift.StringLiteralType)
+  public init(unicodeScalarLiteral value: Swift.StringLiteralType)
+  public typealias StringLiteralType = Swift.StringLiteralType
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.StringLiteralType
+  public typealias UnicodeScalarLiteralType = Swift.StringLiteralType
+}
+extension JSON : Swift.ExpressibleByIntegerLiteral {
+  public init(integerLiteral value: Swift.IntegerLiteralType)
+  public typealias IntegerLiteralType = Swift.IntegerLiteralType
+}
+extension JSON : Swift.ExpressibleByBooleanLiteral {
+  public init(booleanLiteral value: Swift.BooleanLiteralType)
+  public typealias BooleanLiteralType = Swift.BooleanLiteralType
+}
+extension JSON : Swift.ExpressibleByFloatLiteral {
+  public init(floatLiteral value: Swift.FloatLiteralType)
+  public typealias FloatLiteralType = Swift.FloatLiteralType
+}
+extension JSON : Swift.ExpressibleByDictionaryLiteral {
+  public init(dictionaryLiteral elements: (Swift.String, Any)...)
+  public typealias Key = Swift.String
+  public typealias Value = Any
+}
+extension JSON : Swift.ExpressibleByArrayLiteral {
+  public init(arrayLiteral elements: Any...)
+  public typealias ArrayLiteralElement = Any
+}
+extension JSON : Swift.RawRepresentable {
+  public init?(rawValue: Any)
+  public var rawValue: Any {
+    get
+  }
+  public func rawData(options opt: Foundation.JSONSerialization.WritingOptions = JSONSerialization.WritingOptions(rawValue: 0)) throws -> Foundation.Data
+  public func rawString(_ encoding: Swift.String.Encoding = .utf8, options opt: Foundation.JSONSerialization.WritingOptions = .prettyPrinted) -> Swift.String?
+  public func rawString(_ options: [LSPatch.writingOptionsKeys : Any]) -> Swift.String?
+  public typealias RawValue = Any
+}
+extension JSON : Swift.CustomStringConvertible, Swift.CustomDebugStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension JSON {
+  public var array: [LSPatch.JSON]? {
+    get
+  }
+  public var arrayValue: [LSPatch.JSON] {
+    get
+  }
+  public var arrayObject: [Any]? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var dictionary: [Swift.String : LSPatch.JSON]? {
+    get
+  }
+  public var dictionaryValue: [Swift.String : LSPatch.JSON] {
+    get
+  }
+  public var dictionaryObject: [Swift.String : Any]? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var bool: Swift.Bool? {
+    get
+    set
+  }
+  public var boolValue: Swift.Bool {
+    get
+    set
+  }
+}
+extension JSON {
+  public var string: Swift.String? {
+    get
+    set
+  }
+  public var stringValue: Swift.String {
+    get
+    set
+  }
+}
+extension JSON {
+  public var number: Foundation.NSNumber? {
+    get
+    set
+  }
+  public var numberValue: Foundation.NSNumber {
+    get
+    set
+  }
+}
+extension JSON {
+  public var null: Foundation.NSNull? {
+    get
+    set
+  }
+  public func exists() -> Swift.Bool
+}
+extension JSON {
+  public var url: Foundation.URL? {
+    get
+    set
+  }
+}
+extension JSON {
+  public var double: Swift.Double? {
+    get
+    set
+  }
+  public var doubleValue: Swift.Double {
+    get
+    set
+  }
+  public var float: Swift.Float? {
+    get
+    set
+  }
+  public var floatValue: Swift.Float {
+    get
+    set
+  }
+  public var int: Swift.Int? {
+    get
+    set
+  }
+  public var intValue: Swift.Int {
+    get
+    set
+  }
+  public var uInt: Swift.UInt? {
+    get
+    set
+  }
+  public var uIntValue: Swift.UInt {
+    get
+    set
+  }
+  public var int8: Swift.Int8? {
+    get
+    set
+  }
+  public var int8Value: Swift.Int8 {
+    get
+    set
+  }
+  public var uInt8: Swift.UInt8? {
+    get
+    set
+  }
+  public var uInt8Value: Swift.UInt8 {
+    get
+    set
+  }
+  public var int16: Swift.Int16? {
+    get
+    set
+  }
+  public var int16Value: Swift.Int16 {
+    get
+    set
+  }
+  public var uInt16: Swift.UInt16? {
+    get
+    set
+  }
+  public var uInt16Value: Swift.UInt16 {
+    get
+    set
+  }
+  public var int32: Swift.Int32? {
+    get
+    set
+  }
+  public var int32Value: Swift.Int32 {
+    get
+    set
+  }
+  public var uInt32: Swift.UInt32? {
+    get
+    set
+  }
+  public var uInt32Value: Swift.UInt32 {
+    get
+    set
+  }
+  public var int64: Swift.Int64? {
+    get
+    set
+  }
+  public var int64Value: Swift.Int64 {
+    get
+    set
+  }
+  public var uInt64: Swift.UInt64? {
+    get
+    set
+  }
+  public var uInt64Value: Swift.UInt64 {
+    get
+    set
+  }
+}
+extension JSON : Swift.Comparable {
+}
+public func == (lhs: LSPatch.JSON, rhs: LSPatch.JSON) -> Swift.Bool
+public func <= (lhs: LSPatch.JSON, rhs: LSPatch.JSON) -> Swift.Bool
+public func >= (lhs: LSPatch.JSON, rhs: LSPatch.JSON) -> Swift.Bool
+public func > (lhs: LSPatch.JSON, rhs: LSPatch.JSON) -> Swift.Bool
+public func < (lhs: LSPatch.JSON, rhs: LSPatch.JSON) -> Swift.Bool
+public enum writingOptionsKeys {
+  case jsonSerialization
+  case castNilToNSNull
+  case maxObjextDepth
+  case encoding
+  public static func == (a: LSPatch.writingOptionsKeys, b: LSPatch.writingOptionsKeys) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+extension JSON : Swift.Codable {
+  public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+public class LSPatch {
+  public init(options: [Swift.String : Any], onDiscovery: @escaping (([Swift.String : Any]) -> Swift.Void), onData: @escaping (([Swift.String : Any]) -> Swift.Void), onStatus: @escaping (([Swift.String : Any]) -> Swift.Void))
+  public func select(patchId: Swift.String)
+  public func configure(sensorConfig: [Swift.String : Any?])
+  public func start()
+  public func stopAcquisition()
+  public func turnOff(eraseFlash: Swift.Bool)
+  public func identify()
+  public func configureSSID(SSID: Swift.String, passwd: Swift.String)
+  public func requestData(sequenceList: [Swift.UInt32])
+  public func requestData(seqStart: Swift.UInt32, seqEnd: Swift.UInt32)
+  public func commit(longSync: Swift.Bool)
+  public func redirect(ip: Swift.String)
+  public func finish()
+  @objc deinit
+}
+extension LSPatch.SwiftyJSONError : Swift.Equatable {}
+extension LSPatch.SwiftyJSONError : Swift.Hashable {}
+extension LSPatch.SwiftyJSONError : Swift.RawRepresentable {}
+extension LSPatch.`Type` : Swift.Equatable {}
+extension LSPatch.`Type` : Swift.Hashable {}
+extension LSPatch.`Type` : Swift.RawRepresentable {}
+extension LSPatch.writingOptionsKeys : Swift.Equatable {}
+extension LSPatch.writingOptionsKeys : Swift.Hashable {}

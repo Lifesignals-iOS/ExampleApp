@@ -1,0 +1,278 @@
+# Master TLV definition
+# Unless specified, all data elements are unsigned 16 bits.
+# Supported Types:
+# byte (or bytes) : unsigned 8 bit integer
+# u16, u32, .. generalized to uN where N is a multiple of 8: Integer of N bit width
+# i16, i32… Signed integers, bit width notation same as above
+# Format
+# - T:Name # Value is a 16 bit unsigned integer
+# - T:Name (<type>)
+# - T:Name (Array) # Array of u16s
+# - T:Name (Array of <type>) # Array of any other type
+# Number of elements in the array is deduced
+# from ‘L’ field of TLV ( L / byte-width of elements)
+# - T:Name { ... } # nested TLV
+1: TlvDefinition{
+ # Sensor Data: This represent the block of real-time values sent by the biosensor. The length
+ # of arrays can potentially be different for each transmission
+ # It is possible that there could be multiple ‘SensorData’ entries in a TLV block
+ # e.g: response to requests of multiple sequence numbers. This violates the usual
+ # key-value pair policy. The parser shall be prepared to handle presence of multiple
+ # keys
+ 0x01:SensorData {
+ 0x01:Seq (u32), # Sequence number of the TLV block.
+ 0x02:ECG0 (Array of i16) # Array element [0] represents sample count
+ 0x03:ECG1 (Array of i16) # Array element [0] represents sample count
+ 0x04:ECG2 (Array of i16) # Array element [0] represents sample count
+ 0x05:ECG3 (Array of i16) # Array element [0] represents sample count
+ 0x06:ECG4 (Array of i16) # Array element [0] represents sample count
+ 0x07:ECG5 (Array of i16) # Array element [0] represents sample count
+ 0x08:ECG6 (Array of i16) # Array element [0] represents sample count
+ 0x09:ECG7 (Array of i16) # Array element [0] represents sample count
+ 0x0A:Respiration(Array of i32) # Array element [0] represents sample count
+ 0x0B:IAGain # IA Gain Status: 0 - High, 1 - Low
+ # LeadStatus: 0 : Lead On, 1: Lead Off. 1 Bit for each channel. Bit Positions:
+ # 0 – LA, 1 – RA, 2 – LL, 3 – V1, 4 – RL, 5 – V2, 6 – V3, 7 – V4, 8 – V5,
+ # 9 – V6, 10 – T1, 11– T2, 12– LU, 13– LD, 14– RD, 15 – RU
+ 0x0C:LeadStatus
+ 0x0D:Accel(Array of i16) # XYZ with [0] as sample count. Resampled.
+ 0x0E:RLDInformation # [3:0] - RLD Channel, [4] - LOOP STATUS
+ # 0 - RLD Loop is closed, 1 - Open
+ #[8]-EVENT Button status #1 - button pressed
+ 0x10:Temperature (i16) # Mean Temperature ADC Code
+ 0x11:vBat #Battery voltage in millivolts
+ 0x12:PatchId (Array of bytes) # String of 6 chars including NULL
+ 0x13:SpO2 (Array of bytes) # SpO2 data block
+ 0x14:SpO2Raw (Array of bytes) # SpO2 optional data block
+ 0x015:AmbientTemperature (Array of i32) #Temperature in millidegrees
+ 0x19:RespirationIQData(Array of i32)
+ # Array element [0] represents sample count(future use)
+ # Timestamps: Each realtime sample list will have its own
+ # ECG channels will either have a common timestamp (TsECG) or individual
+ # timestamps (TsECG0, …). Only one of them will be present
+ 0x20: TsECG (u48)
+ 0x21: TsResp (u48)
+ 0x22: TsTemp (u48)
+ 0x23: TsAccel (u48)
+ 0x24 : TsSpO2 (u48)
+ 0x25: TsECG0 (u48)
+ 0x26: TsECG1 (u48)
+ 0x27: TsECG2 (u48)
+ 0x28: TsECG3 (u48)
+ 0x29: TsECG4 (u48)
+ 0x2A: TsECG5 (u48)
+ 0x2B: TsECG6 (u48)
+ 0x2C: TsECG7 (u48)
+ 0x30: FuelGauge(Array)
+ 0xF7: Checksum(u32) # 32bit Checksum including checksum sub type
+ }
+ 0x02:PatchInfo { # Part of broadcast
+ 0x01:PatchId (Array of bytes) # String of 6 chars including NULL
+ 0x02:MacId (Array of bytes) # Array of 6 char, without semicolon
+ 0x03:SerialNum (Array of bytes) # String of 6 chars including NULL
+ 0x04:PartNumber(Array of bytes) # SAP part number; 12 chars
+0x05:ProductPartNumber (Array of bytes) # Product part number 10 chars
+ 0x20:VbatMinMax (Array of u16) # Battery voltage in millivolts
+ #[0] Vbat Min
+ # [1] - Vbat Max
+ # [2] - Vbat Current value
+0x21:PatchDebug (Array of bytes) # [0] - WDT Status & [1] - PC status
+0x30:RadioONStat(u32) # Radio ON count in ms
+ }
+ 0x03:SensorCalibration { # Part of broadcast
+ 0x01:IAConvLo1mv (Array) # Conversion factor from ADC count to mv
+# when IAGain is Low
+ 0x02:IAConvHi1mv (Array) # Same as above, when IAGain is High
+ 0x03:Resp1Ohm (Array) # [0] - Resp1OhmLo, [1] - Resp1OhmHi
+ 0x04:TempCalib (Array of i32) # [0] - Slope,
+ # [1] - Constant,
+ # [2] - Ambient Temp Code
+# [3] - Thermistor Alpha
+# [4] - Thermistor Beta
+# [5] - Thermistor Gamma
+ 0x05:AccelCalib (Array of i16) # [0] - accelCode1g,
+ # [1] - accelOffset_x,
+ # [2] - accelOffset_y,
+ # [3] - accelOffset_z
+ 0x06:SpO2Calib (Array of bytes)
+ 0x07:IAGainLo (Array of bytes) # IA Gain Low setting
+ 0x08:IAGainHi (Array of bytes) # IA Gain High setting
+ }
+ 0x04:Capability { # Part of broadcast
+ 0x01:ECGSupportedCh # [bit7:0] - ECG Channels Enabled, [bit15:8] - Rsrvd
+ 0x03:ECGChSps (Array of bytes) # [0] - ECGCH0, [7] - ECGCH7
+# 1: Rsvd, 2: Rsvd, 4: Rsvd,
+# 8: Rsvd, 16: Rsvd, 32: 244sps
+ 0x05:ClockDiv # 0 - Sub Sampling feature is not supported
+# 1 - Sub Sampling feature is supported
+ 0x06:ECGWiring (Array) # [7:0]-CHxM, [15:8]-CHxP,
+ # 0 – LA, 1 – RA, 2 – LL, 3 – V1, 4 – RL, 5 – V2, 6 – V3, 7 – V4, 8 – V5,
+ # 9 – V6, 10 – T1, 11– T2, 12– LU, 13– LD, 14– RD, 15 – RU, 16-NC
+ 0x07:RespirationConfig # 0 - Respiration feature is not supported
+ # 1 - Respiration feature is supported
+ 0x08:StorageSize
+ 0x09:MaxPatchLife # in minutes
+ 0x0A:AccelInfo (Array of bytes) # [0] - 0 - Feature not Supported, 1 - Supported
+# [1] -Sampling Freq
+ 0x0B:TempSupported(Array of bytes) # [0]- 0 - Feature not Supported, 1 - Supported
+# [1] -Sampling Freq
+ # SPS bit[0]: 0.5SPS, [1]: 1SPS, [2]: 2SPS
+ 0x0E:SyncMode # BIT[0]:0 - Sync Feature is not supported
+ # BIT[0]: 1 - Sync Feature is supported
+#BIT[7:1] - Reserved
+#BIT[15:8] - Range Request Free Buffers
+ 0x0F:NetworkPorts (Array) # [0] - Control Port, [1] - Data port
+ 0x10:MaxLatency (Array) # [0] - Max Latency in units of 10msec,
+ # [1] - Packet Aggr Interval in ms
+ 0x11:PatchStatus # PatchStatus - Values (bit field)
+# Bit 0: CONNECTED,
+# Bit 1: CONFIGURED
+# Bit 2: COMMITTED
+# Bit 3: STREAMING
+# Bit 4: COMPLETE
+# Bit 5: INITDONE
+# BIT6: APMODE
+# BIT7: LEAD STATUS
+# BIT8: AUTO START ENABLED
+# BIT9: AUTO STARTED
+# BIT10: AUTO COMMITTED
+# BIT[15:11] - Reserved
+ 0x12:TotalAvailSequence (u32)
+ 0x13:StartTime (u32) # Epoch Time, set by Start command
+ 0x15:DestIP(u32) # IP address of the streaming destination
+ 0x16:SpO2Config(Array) # [0]: Bit 0: 0: Spo2 Not Supported
+ # [0]: Bit 0: 1: Spo2 Supported
+# [0]: Bit 1: Enable raw data
+# [0]: Bit 2: Enable debug data
+# [0]: Bit 3: 0: Single shot 1: Periodic
+# [1]: On time in minutes (0: SpO2 disabled)
+# [2]: Off time in minutes
+ 0x17:SpO2SPS
+ 0x18:FeatureConfig # bit [0]
+ # 0 - AutoRepeat Config feature is not supported
+ # 1 - AutoRepeat Config feature is supported
+ # bit [1]
+ # 0 - Compression feature is not supported
+ # 1 - Compression feature is supported
+ # bit [2]
+ # 0 - Command Signature feature is not supported
+ # 1 - Command Signature feature is supported
+ # bit [3]
+ # 0 - Tx Staggering feature is not supported
+ # 1 - Tx Staggering feature is supported
+ # bit [4]
+ # 0 - Roaming feature is not supported
+ # 1 - Roaming feature is supported
+# bit[5]
+# 0 - Seq Num Epoch Table feature is not supported
+# 1 - Seq Num Epoch Table feature is supported
+ # bit[15-6] Reserved
+ 0x20:PSConfig # bit [0]
+ # 0 - Power save Config feature is not supported
+ # 1 - Power save Config feature is supported
+ 0x21:RequestBufferLen # Length of request buffer
+ 0x30:RangeEndSequenceNumber (u32) # Data Request Range End Sequence Number
+ 0x31:StartAvailSequenceNumber (u32) # Start Available Sequence Number
+ 0x32:StartProcCommitTime (u32) # Epoch Time, set by Commit Command
+ 0x33:RespirationSampleSpacing (u32) # sample spacing in microseconds(for future use)
+ 0x34:BroadcastInterval(u16) # 0 - broadcast interval not supported, 1 - supported
+ # bit[0] - default interval(3, 3, 3, 12) seconds
+ # bit[1] - (10, 10, 10, 20) seconds
+ # bit[2] - (30, 30, 30, 40) seconds
+ }
+ 0x05:ConfigurePatch {
+ 0x01:ECGSupportedCh # [bit7:0] - ECG Channels Enabled, [bit15:8] - Rsrvd
+ 0x03:ECGChSps (Array of bytes) # [0] - ECGCH0, [7] - ECGCH7
+# 1: Rsvd, 2: Rsvd, 4: Rsvd,
+# 8: Rsvd, 16: Rsvd, 32: 244sps
+ 0x05:ClockDiv # 1- 500KHz Mode, 0-1MHz Mode
+ 0x07:RespirationConfig # Bit 0: Enable respiration (Active High)
+ 0x09:PatchLife # In minutes
+ 0x0A:AccelInfo (Array of bytes) # [0]- Bit 0 :Enable Accelerometer(Active High) and
+# [1] -Sampling Freq
+ 0x0B:TempSupported(Array of bytes) # [0]- Bit 0 :Enable Temperature(Active High) and
+ # [1] -Sampling Freq
+ # SPS 1: 0.5SPS, 2: 1SPS, 4: 2SPS
+ 0x0E:SyncMode # Read Only 0 - Short Sync, 1- Long Sync
+ 0x0F:NetworkPorts (Array) # [0] - Control Port, [1] - Data port
+ 0x10:MaxLatency (Array) # [0] - Max Latency in units of 10msec,
+ # [1] - Packet Aggr Interval in ms
+ 0x16:SpO2Config (Array) # See Capability
+ 0x18:FeatureConfig # bit[0] 0- AutoRepeat disabled and 1- Enabled
+ # bit[1] 0- Compression disabled and 1- Enabled
+ # bit[2] 0- Command Signature disabled and 1- Enabled
+ # bit[3] 0- Tx Staggering disabled and 1- Enabled
+ # bit[4] 0- Roaming disabled and 1- Enabled
+ # bit[15-5] Reserved
+ 0x20:PSConfig # bit[0] 0- Power save disabled and 1- Enabled
+ 0x34:BroadcastInterval(u16) # bit[0] - default interval(3, 3, 3, 12) seconds
+ # bit[1] - (10, 10, 10, 20) seconds
+ # bit[2] - (30, 30, 30, 40) seconds
+}
+ 0x07:VersionInfo { # Part of bcast
+ 0x01:FWVersion (u32)
+ 0x02:Hash (u32)
+ 0x03:ProjVersion (u32)
+ 0x04: SpO2Format # SpO2 Data format version
+ }
+ 0x08:Start { # Start sensors and streaming of live data
+ 0x13:EpochTime (u32)
+ 0x15:DestIP(u32) # IP address of target
+ }
+ 0x09:StopAcq # Stop acquisition from sensors; patch will still be online for data request
+# V or TLV will be ignored
+# Command signature [0xFA, 0x3E, 0x50, 0x61, 0x63, 0x6B, 0x6D, 0x79,
+# 0x62, 0x6F, 0x78, 0x77, 0x69, 0x74, 0x68, 0x66, 0x69, 0x76, 0x65, 0x64, 0x6F, 0x7A, 0x65,
+# 0x6E, 0x6C, 0x69, 0x71, 0x75, 0x6F, 0x72, 0x6A, 0x75, 0x67, 0x73, 0x20, 0x48, 0x65, 0x61,
+# 0x76, 0x79, 0x62, 0x6F, 0x78, 0x65, 0x73, 0x70, 0x65, 0x72, 0x66, 0x6F, 0x72, 0x6D, 0x71,
+# 0x75, 0x69, 0x63, 0x6B, 0x77, 0x61, 0x6C, 0x74, 0x7A, 0x65, 0x73]
+# to be present for this command.
+ 0x0A:Commit { # Writes the updated config to flash, so it will be effective on restart
+ 0x0E:SyncMode # 0 - Short Sync, 1- Long Sync
+ 0x32:StartProcCommitTime (u32) # Epoch Time
+ }
+ 0x0B:TurnOff {
+ 0x14:EraseFlash # 1: Erase flash before turning off
+# Command signature [0xFA, 0x3E, 0x50, 0x61, 0x63, 0x6B, 0x6D, 0x79,
+# 0x62, 0x6F, 0x78, 0x77, 0x69, 0x74, 0x68, 0x66, 0x69, 0x76, 0x65, 0x64, 0x6F, 0x7A, 0x65,
+# 0x6E, 0x6C, 0x69, 0x71, 0x75, 0x6F, 0x72, 0x6A, 0x75, 0x67, 0x73, 0x20, 0x48, 0x65, 0x61,
+# 0x76, 0x79, 0x62, 0x6F, 0x78, 0x65, 0x73, 0x70, 0x65, 0x72, 0x66, 0x6F, 0x72, 0x6D, 0x71,
+# 0x75, 0x69, 0x63, 0x6B, 0x77, 0x61, 0x6C, 0x74, 0x7A, 0x65, 0x73]
+# to be present for this command.
+}
+ 0x0C:Identify # Flash the LEDs of the patch
+ 0x0D:ConfigureSSID {
+ 0x03:SSID(Array of bytes)
+ 0x04:Password (Array of bytes)
+ }
+ 0x0E:DataRequest {
+0x01: Seqs (Array of u32) # List of seq numbers, max 100
+0x0F: RangeReq (Array of u32) # [0] seq range start [1] Seq Range End
+ }
+ 0x0F:Redirect {
+ 0x15:DestIP(u32) # IP address of target
+# Command signature [0xFA, 0x3E, 0x50, 0x61, 0x63, 0x6B, 0x6D, 0x79,
+# 0x62, 0x6F, 0x78, 0x77, 0x69, 0x74, 0x68, 0x66, 0x69, 0x76, 0x65, 0x64, 0x6F, 0x7A, 0x65,
+# 0x6E, 0x6C, 0x69, 0x71, 0x75, 0x6F, 0x72, 0x6A, 0x75, 0x67, 0x73, 0x20, 0x48, 0x65, 0x61,
+# 0x76, 0x79, 0x62, 0x6F, 0x78, 0x65, 0x73, 0x70, 0x65, 0x72, 0x66, 0x6F, 0x72, 0x6D, 0x71,
+# 0x75, 0x69, 0x63, 0x6B, 0x77, 0x61, 0x6C, 0x74, 0x7A, 0x65, 0x73]
+# to be present for this command.
+ }
+ 0x10:Ok # Response to patch commands
+ 0x11:Fail # Response to patch commands
+ 0x12:ConfigSpO2 {
+ 0x17:SpO2Config(Array) # [0] - Configuration and [1] - Reserved
+ }
+0x13: ProgramLED {
+ 0x1: Repeat (u16) # No. of times to repeat the pattern.
+ # 0 : Forever or till new programm
+ 0x2: RedGreenValue (array of bytes) # Duration of each value in decisecs
+ 0x3: Duration (array of bytes)
+ }
+0x14:SetEPochTime { #Send Epoch Time to store into NOR flash along with sequence num
+ 0x13: EpochTime (u32)
+ }
+0x15:GetSeqEpochTable #Command to get Sequence num & EpochTable
+0x16:SeqEpochTable (array of u32)
+}
+
