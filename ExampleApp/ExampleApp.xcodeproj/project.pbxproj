@@ -20,7 +20,6 @@
 		1650CE1823C327C400288A53 /* dummyECG.json in Resources */ = {isa = PBXBuildFile; fileRef = 1650CE1723C327C300288A53 /* dummyECG.json */; };
 		168902AB23D96F9700EC1C9D /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 168902A923D96F9600EC1C9D /* GraphView.m */; };
 		8ACA03C425A445D600762D2B /* ConfigureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACA03C325A445D600762D2B /* ConfigureViewController.swift */; };
-		A018DDC825A8AE3B00817D78 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A018DDC525A8AE3B00817D78 /* DataManager.swift */; };
 		A018DDCA25A8AE3B00817D78 /* LSPatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */; };
 		A092AC9325C7E2F40013C6BE /* PatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A092AC9225C7E2F40013C6BE /* PatchTableViewCell.swift */; };
 		A092ACA025C7E4300013C6BE /* LSPatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A092AC9F25C7E42F0013C6BE /* LSPatch.framework */; };
@@ -77,7 +76,6 @@
 		168902A923D96F9600EC1C9D /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		168902AA23D96F9700EC1C9D /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		8ACA03C325A445D600762D2B /* ConfigureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureViewController.swift; sourceTree = "<group>"; };
-		A018DDC525A8AE3B00817D78 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPatchManager.swift; sourceTree = "<group>"; };
 		A092AC9225C7E2F40013C6BE /* PatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTableViewCell.swift; sourceTree = "<group>"; };
 		A092AC9F25C7E42F0013C6BE /* LSPatch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LSPatch.framework; sourceTree = "<group>"; };
@@ -172,7 +170,6 @@
 		A018DDC425A8AE3B00817D78 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				A018DDC525A8AE3B00817D78 /* DataManager.swift */,
 				A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */,
 			);
 			path = Managers;
@@ -399,7 +396,6 @@
 				1650CE1423C3126A00288A53 /* LineChart.swift in Sources */,
 				163116552406451100B4AA46 /* GraphLineLayer.swift in Sources */,
 				168902AB23D96F9700EC1C9D /* GraphView.m in Sources */,
-				A018DDC825A8AE3B00817D78 /* DataManager.swift in Sources */,
 				8ACA03C425A445D600762D2B /* ConfigureViewController.swift in Sources */,
 				A018DDCA25A8AE3B00817D78 /* LSPatchManager.swift in Sources */,
 				1650CE1223C310DE00288A53 /* CGPointExt.swift in Sources */,
@@ -589,9 +585,9 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ls.phoenix;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
 				PRODUCT_NAME = ExampleApp;
-				PROVISIONING_PROFILE_SPECIFIER = Phoenix_Dev_Profile;
+				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/reshmikv/Desktop/WC_ExampleApp_iOS/exampleapp_ios/ExampleApp/ExampleApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -628,9 +624,9 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ls.phoenix;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
 				PRODUCT_NAME = ExampleApp;
-				PROVISIONING_PROFILE_SPECIFIER = Phoenix_Dev_Profile;
+				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
 				SWIFT_OBJC_BRIDGING_HEADER = "/Users/reshmikv/Desktop/WC_ExampleApp_iOS/exampleapp_ios/ExampleApp/ExampleApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

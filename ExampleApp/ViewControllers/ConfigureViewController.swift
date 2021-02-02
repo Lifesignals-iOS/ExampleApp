@@ -66,12 +66,7 @@ class ConfigureViewController: UIViewController ,UITextFieldDelegate{
        }
 }
 extension ConfigureViewController: LSPatchManagerDelegate {
-    func onDiscovery(bcast: [String: Any]) {
-        
-    }
-    func onData(data: [String: Any]) {
-        
-    }
+   
     func onStatus(status: [String: Any]) {
         let cmd = status["command"] as! String
         let error = status["value"] as! String
@@ -81,8 +76,18 @@ extension ConfigureViewController: LSPatchManagerDelegate {
             if error == "success" || error == "usage-err" {
                 // navigate to plotting screen.
                 DispatchQueue.main.async {
-                    let viewController: UIViewController? = self.storyboard?.instantiateViewController(withIdentifier: "PlotViewController")
-                    self.navigationController?.pushViewController(viewController!, animated: true)
+                    
+                    if error == "usage-err" { // already configured.
+                        let alert = UIAlertController(title: "Already configured", message: "", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default , handler:{ (UIAlertAction)in
+                            let viewController: UIViewController? = self.storyboard?.instantiateViewController(withIdentifier: "PlotViewController")
+                            self.navigationController?.pushViewController(viewController!, animated: true)
+                        }))
+                        self.present(alert, animated: true, completion: nil)
+                    } else { // first time configure
+                        let viewController: UIViewController? = self.storyboard?.instantiateViewController(withIdentifier: "PlotViewController")
+                        self.navigationController?.pushViewController(viewController!, animated: true)
+                    }
                 }
                 
             } else {

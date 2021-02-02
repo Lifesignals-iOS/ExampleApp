@@ -71,7 +71,7 @@ class PlottingViewController: UIViewController {
         }))
         alert.addAction(UIAlertAction(title: "Turn off", style: .default , handler:{ (UIAlertAction)in
            
-            LSPatchManager.shared.turnOff()
+            LSPatchManager.shared.turnOff(eraseFlash: true)
         }))
         alert.addAction(UIAlertAction(title: "Finish", style: .default , handler:{ (UIAlertAction)in
             LSPatchManager.shared.finish()
@@ -85,8 +85,9 @@ class PlottingViewController: UIViewController {
     }
     
     private func getVersions() {
-        self.lblAppVersion.text = "App v" + DataManager.getAppVersion() + "   |"
-        self.lblLibVersion.text = "Lib v" + DataManager.lsPatchLibVersion()
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        self.lblAppVersion.text = "App v" + appVersion + "   |"
+        self.lblLibVersion.text = "Lib v" + LSPatchManager.shared.getLibVersion()
     }
 
     
@@ -139,19 +140,19 @@ extension PlottingViewController : LSPatchManagerDelegate {
         if error == "success" || error == "usage-err" {
             if(cmd == "commit"){
                 DispatchQueue.main.async {
-                    self.statusLabel.text = "Commit is success"
+                    self.statusLabel.text = "Commit is \(error)"
                 }
             }else if(cmd == "start"){
                 DispatchQueue.main.async {
-                    self.statusLabel.text = "Start is success"
+                    self.statusLabel.text = "Start is \(error)"
                 }
             }else if(cmd == "turn-off"){
                 DispatchQueue.main.async {
-                    self.statusLabel.text = "Turn off is success"
+                    self.statusLabel.text = "Turn off is \(error)"
                 }
             }else if(cmd == "stop"){
                 DispatchQueue.main.async {
-                    self.statusLabel.text = "Stop is success"
+                    self.statusLabel.text = "Stop is \(error)"
                 }
             }
         } else {

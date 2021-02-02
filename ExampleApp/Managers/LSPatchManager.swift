@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 import LSPatch
 
 enum SensorStatus: UInt16 {
@@ -49,8 +48,6 @@ final class LSPatchManager {
     
     public var delegate: LSPatchManagerDelegate? = nil
     
-    private var totalAvailSeq = 0
-    
     private var lsPatch: LSPatch?
     var lastDataRxTime = Date()
     
@@ -90,9 +87,7 @@ final class LSPatchManager {
                             let capability = self!.selectedBroadcastData!["Capability"] as! Dictionary<String, Any>
                             let destIP = capability["DestIP"] as? String
                             let patchIP = self?.selectedBroadcastData!["PatchIP"] as! String
-                            if let deviceIP = UIDevice.current.getIFAddresses(patchIP: patchIP){
-                                print("Dest ip \(destIP!)  deviceip \(deviceIP)")
-                                
+                            if let deviceIP = UIDevice.current.getIFAddresses(patchIP: patchIP){                                
                                 if deviceIP != destIP {
                                     self?.lsPatch?.redirect(ip: deviceIP)
                                 }
@@ -111,7 +106,6 @@ final class LSPatchManager {
                     self?.delegate?.onData?(data: streamObj)
                 }else{
                     //Skipping stream
-                    //logger.log(str:"\(logger.testLogCurrentTime) " +  "Skipped stream packet patch id mismatch patch :\(patch)")
                 }
             }
             
@@ -123,9 +117,6 @@ final class LSPatchManager {
                 if (status == "connection") {
                     
                     if(value == "socket-timeout") {
-                        
-                       // logger.testLog(time: logger.testLogCurrentTime, tag: APP_TCPCMDS, message: "${command = connection} ${value = \(value)}")
-                        
                         // The time check is also needed, because the serial queue for the data receival is taking more time, during which the connection-timeout is being triggered too.
                         if(!self!.isBCReceivedRecently() && Date().timeIntervalSince(self!.lastDataRxTime) > 3) {
                             if(self!.isConnected){
@@ -134,7 +125,7 @@ final class LSPatchManager {
                                 
                             }
                         } else if Date().timeIntervalSince(self!.lastDataRxTime) < 3 {
-                           // logger.log(str:"\(logger.testLogCurrentTime) " +  "Data is being received from lib!!!")
+                        
                         }
                     }
                     
@@ -145,6 +136,13 @@ final class LSPatchManager {
             
         })
     }
+    
+    func getLibVersion() -> String {
+        let bundle = Bundle(identifier: "com.hmicro.LSPatch")! // Get a reference to the bundle from your framework (not the bundle of the app itself!)
+        let build = bundle.infoDictionary!["CFBundleShortVersionString"] as! String
+        return build
+    }
+    
     func identifyPatch(){
         lsPatch?.identify()
     }
@@ -161,14 +159,13 @@ final class LSPatchManager {
     }
     
     func reconfigure(ssid: String, password: String) {
-       // logger.log(str:"\(logger.testLogCurrentTime) " +  "Reconfigure ssid: \(ssid) pass: \(password)")
         lsPatch?.configureSSID(SSID: ssid, passwd: password)
     }
+    
     func request(seqnceList: [UInt32]){
-       
         self.lsPatch?.requestData(sequenceList: seqnceList)
-        
     }
+    
     func redirect(deviceIP: String){
         lsPatch?.redirect(ip: deviceIP)
     }
@@ -177,66 +174,39 @@ final class LSPatchManager {
     }
     
     func commit() {
-       
         lsPatch?.commit(longSync: false)
-       
     }
     
     
     func configurePatch(input : UInt16) {
-        
         if var bcData = self.selectedBroadcastData {
             
             var bc = bcData["ConfigurePatch"] as? Dictionary<String,Any>
-            
-         //   let duration = UserDefaults.standard.value(forKey: DURATION)
-            
-//            if duration is String{
-//
-//                bc?["PatchLife"] = UInt16(duration as! String)
-//
-//            }else{
-//
-//                bc?["PatchLife"] = duration as! UInt16
-//
-//            }
-           // let duration: UInt16 = 10
             bc?["PatchLife"] = input
-
-            //patchLife
-            
             bcData["ConfigurePatch"] = bc
             
             lsPatch?.configure(sensorConfig: bcData)
-            
         }
-        
     }
     
     func stopAcq() {
         lsPatch?.stopAcquisition()
     }
-    func turnOff(){
-       // logger.testLog(time: logger.testLogCurrentTime, tag: APP_RET_LOGIC, message: "Turn off Called")
-        
+    
+    func turnOff(eraseFlash: Bool){
         lsPatch?.turnOff(eraseFlash: true)
     }
+    
     func requestRange(start: UInt32, stop: UInt32) {
-        //        print("requested for range start === \(start) and stop === \(stop)")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            //logger.testLog(time: logger.testLogCurrentTime, tag: APP_RET_LOGIC, message: "${RRTCP = (\(start),\(stop))}")
-            self.lsPatch?.requestData(seqStart: start, seqEnd: stop)
-        }
+        lsPatch?.requestData(seqStart: start, seqEnd: stop)
     }
     
     func isPatchStreaming() -> Bool {
         if(!selectedPatchID.isEmpty && selectedBroadcastData != nil) {
             let cap = selectedBroadcastData!["Capability"] as! [String: Any]
             let patchStatus = cap["PatchStatus"] as? UInt16 ?? 0
-           // logger.log(str: "PAth status !!!!!!!!!!!!!! \(patchStatus)   \(SensorStatus.isCommitted(status: patchStatus))")
             return SensorStatus.isCommitted(status: patchStatus)
         }
-        //logger.log(str: "isPatchStreaming !!!!!!!!!!!!!! Else")
         return false
     }
     
@@ -250,7 +220,6 @@ final class LSPatchManager {
     }
 
     func finish(){
-      //  logger.log(str:"\(logger.testLogCurrentTime) " +  "LSPatchManager : Close connection ")
         lsPatch?.finish()
         selectedPatchID = ""
         selectedBroadcastData = nil
@@ -289,10 +258,8 @@ final class LSPatchManager {
     
     private func isBCReceivedRecently() -> Bool {
         let currentTime = Int(Date().timeIntervalSince1970)
-     //   logger.log(str: "Last broadcast: \(self.lastBroadcastReceivedTime ) Connected: \(self.isConnected) currentTime: \(currentTime)")
         if (self.lastBroadcastReceivedTime != 0){
             if((currentTime - (self.lastBroadcastReceivedTime)) > 12){
-           //     logger.log(str: "isBCReceivedRecently return false")
                 return false
             }else{
                 return true
@@ -300,5 +267,6 @@ final class LSPatchManager {
         }
         return false
     }
+    
 }
 

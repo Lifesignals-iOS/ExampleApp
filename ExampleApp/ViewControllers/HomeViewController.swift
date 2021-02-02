@@ -37,8 +37,9 @@ class HomeViewController: UIViewController {
     
     
     private func getVersions() {
-        self.lblAppVersion.text = "App v" + DataManager.getAppVersion() + "   |"
-        self.lblLibVersion.text = "Lib v" + DataManager.lsPatchLibVersion()
+        let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+        self.lblAppVersion.text = "App v" + appVersion + "   |"
+        self.lblLibVersion.text = "Lib v" + LSPatchManager.shared.getLibVersion()
     }
     
 
