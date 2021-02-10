@@ -588,7 +588,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
 				PRODUCT_NAME = ExampleApp;
 				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/reshmikv/Desktop/WC_ExampleApp_iOS/exampleapp_ios/ExampleApp/ExampleApp-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ExampleApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -627,7 +627,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
 				PRODUCT_NAME = ExampleApp;
 				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/reshmikv/Desktop/WC_ExampleApp_iOS/exampleapp_ios/ExampleApp/ExampleApp-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ExampleApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e armv7 armv7s x86_64 i386";
