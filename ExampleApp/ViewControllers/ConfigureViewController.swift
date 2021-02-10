@@ -16,9 +16,9 @@ class ConfigureViewController: UIViewController ,UITextFieldDelegate{
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
         self.view.addGestureRecognizer(tapGesture)
-        LSPatchManager.shared.delegate = self
+        DataReceiverService.shared.delegate = self
         
-        self.onConnectionStatusUpdate(isConnected: LSPatchManager.shared.isConnected)
+        self.onConnectionStatusUpdate(isConnected: DataReceiverService.shared.isConnected)
         
         let menu = UIBarButtonItem(title: "Menu", style: .plain, target: self, action: #selector(menuTapped))
 
@@ -34,7 +34,7 @@ class ConfigureViewController: UIViewController ,UITextFieldDelegate{
 
     @IBAction func configureTapped(_ sender: Any) {
         let pLife = UInt16(patchLifeTextField.text!) ?? 15
-        LSPatchManager.shared.configurePatch(input: pLife)
+        DataReceiverService.shared.configurePatch(input: pLife)
     }
     
     @objc func menuTapped() {
@@ -42,14 +42,16 @@ class ConfigureViewController: UIViewController ,UITextFieldDelegate{
             
             alert.addAction(UIAlertAction(title: "Identify", style: .default , handler:{ (UIAlertAction)in
                
-                LSPatchManager.shared.identifyPatch()
+                DataReceiverService.shared.identifyPatch()
             }))
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default , handler:{ (UIAlertAction)in
            
         }))
+        alert.popoverPresentationController?.sourceView = self.view // works for both iPhone & iPad
 
-            self.present(alert, animated: true, completion: nil)
-        
+            present(alert, animated: true) {
+                print("option menu presented")
+            }
     }
     /*
     // MARK: - Navigation
@@ -68,7 +70,7 @@ class ConfigureViewController: UIViewController ,UITextFieldDelegate{
 extension ConfigureViewController: LSPatchManagerDelegate {
    
     func onStatus(status: [String: Any]) {
-        let cmd = status["command"] as! String
+        let cmd = status["command"] as? String
         let error = status["value"] as! String
         
         if cmd == "configure" {
@@ -101,11 +103,11 @@ extension ConfigureViewController: LSPatchManagerDelegate {
     func onConnectionStatusUpdate(isConnected: Bool) {
         if isConnected {
             DispatchQueue.main.async {
-                self.patchConnStatusLabel.text = "\(LSPatchManager.shared.selectedPatchID) Connected"
+                self.patchConnStatusLabel.text = "\(DataReceiverService.shared.selectedPatchID) Connected"
             }
         } else {
             DispatchQueue.main.async {
-                self.patchConnStatusLabel.text = "\(LSPatchManager.shared.selectedPatchID) Disconnected"
+                self.patchConnStatusLabel.text = "\(DataReceiverService.shared.selectedPatchID) Disconnected"
             }
         }
     }

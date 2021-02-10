@@ -32,7 +32,7 @@ class PlottingViewController: UIViewController {
 
         navigationItem.rightBarButtonItems = [menu]
         
-        LSPatchManager.shared.delegate = self
+        DataReceiverService.shared.delegate = self
         
         initializePlots()
         
@@ -53,50 +53,54 @@ class PlottingViewController: UIViewController {
             
             alert.addAction(UIAlertAction(title: "Identify", style: .default , handler:{ (UIAlertAction)in
                
-                LSPatchManager.shared.identifyPatch()
+                DataReceiverService.shared.identifyPatch()
             }))
         alert.addAction(UIAlertAction(title: "Start", style: .default , handler:{ (UIAlertAction)in
            
-            LSPatchManager.shared.start()
+            DataReceiverService.shared.start()
         }))
         
         alert.addAction(UIAlertAction(title: "Commit", style: .default , handler:{ (UIAlertAction)in
            
-            LSPatchManager.shared.commit()
+            DataReceiverService.shared.commit()
         }))
         
         alert.addAction(UIAlertAction(title: "StopAcq", style: .default , handler:{ (UIAlertAction)in
            
-            LSPatchManager.shared.stopAcq()
+            DataReceiverService.shared.stopAcq()
         }))
         alert.addAction(UIAlertAction(title: "Turn off", style: .default , handler:{ (UIAlertAction)in
            
-            LSPatchManager.shared.turnOff(eraseFlash: true)
+            DataReceiverService.shared.turnOff(eraseFlash: true)
         }))
         alert.addAction(UIAlertAction(title: "Finish", style: .default , handler:{ (UIAlertAction)in
-            LSPatchManager.shared.finish()
+            DataReceiverService.shared.finish()
         }))
         alert.addAction(UIAlertAction(title: "Dismiss", style: .default , handler:{ (UIAlertAction)in
         }))
        
-
-            self.present(alert, animated: true, completion: nil)
         
+        alert.popoverPresentationController?.sourceView = self.view // works for both iPhone & iPad
+
+            present(alert, animated: true) {
+                print("option menu presented")
+            }
+                
     }
     
     private func getVersions() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         self.lblAppVersion.text = "App v" + appVersion + "   |"
-        self.lblLibVersion.text = "Lib v" + LSPatchManager.shared.getLibVersion()
+        self.lblLibVersion.text = "Lib v" + DataReceiverService.shared.getLibVersion()
     }
 
     
     @IBAction func Start(_ sender: Any) {
-        LSPatchManager.shared.start()
+        DataReceiverService.shared.start()
 
     }
     @IBAction func Cancel(_ sender: Any) {
-        LSPatchManager.shared.commit()
+        DataReceiverService.shared.commit()
     }
     
     func initializePlots() {
@@ -127,7 +131,7 @@ extension PlottingViewController : LSPatchManagerDelegate {
     func onConnectionStatusUpdate(isConnected: Bool) {
         if(!isConnected){
             DispatchQueue.main.async {
-                self.statusLabel.text = "\(LSPatchManager.shared.selectedPatchID) Disconnected"
+                self.statusLabel.text = "\(DataReceiverService.shared.selectedPatchID) Disconnected"
             }
         }else{
         }

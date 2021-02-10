@@ -20,7 +20,7 @@
 		1650CE1823C327C400288A53 /* dummyECG.json in Resources */ = {isa = PBXBuildFile; fileRef = 1650CE1723C327C300288A53 /* dummyECG.json */; };
 		168902AB23D96F9700EC1C9D /* GraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 168902A923D96F9600EC1C9D /* GraphView.m */; };
 		8ACA03C425A445D600762D2B /* ConfigureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ACA03C325A445D600762D2B /* ConfigureViewController.swift */; };
-		A018DDCA25A8AE3B00817D78 /* LSPatchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */; };
+		A018DDCA25A8AE3B00817D78 /* DataReceiverService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A018DDC725A8AE3B00817D78 /* DataReceiverService.swift */; };
 		A092AC9325C7E2F40013C6BE /* PatchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A092AC9225C7E2F40013C6BE /* PatchTableViewCell.swift */; };
 		A092ACA025C7E4300013C6BE /* LSPatch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A092AC9F25C7E42F0013C6BE /* LSPatch.framework */; };
 		A092ACA925C7F2360013C6BE /* LSPatch.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = A092AC9F25C7E42F0013C6BE /* LSPatch.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -76,7 +76,7 @@
 		168902A923D96F9600EC1C9D /* GraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GraphView.m; sourceTree = "<group>"; };
 		168902AA23D96F9700EC1C9D /* GraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphView.h; sourceTree = "<group>"; };
 		8ACA03C325A445D600762D2B /* ConfigureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureViewController.swift; sourceTree = "<group>"; };
-		A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LSPatchManager.swift; sourceTree = "<group>"; };
+		A018DDC725A8AE3B00817D78 /* DataReceiverService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataReceiverService.swift; sourceTree = "<group>"; };
 		A092AC9225C7E2F40013C6BE /* PatchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchTableViewCell.swift; sourceTree = "<group>"; };
 		A092AC9F25C7E42F0013C6BE /* LSPatch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LSPatch.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -170,7 +170,7 @@
 		A018DDC425A8AE3B00817D78 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				A018DDC725A8AE3B00817D78 /* LSPatchManager.swift */,
+				A018DDC725A8AE3B00817D78 /* DataReceiverService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -397,7 +397,7 @@
 				163116552406451100B4AA46 /* GraphLineLayer.swift in Sources */,
 				168902AB23D96F9700EC1C9D /* GraphView.m in Sources */,
 				8ACA03C425A445D600762D2B /* ConfigureViewController.swift in Sources */,
-				A018DDCA25A8AE3B00817D78 /* LSPatchManager.swift in Sources */,
+				A018DDCA25A8AE3B00817D78 /* DataReceiverService.swift in Sources */,
 				1650CE1223C310DE00288A53 /* CGPointExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -574,7 +574,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -613,7 +613,7 @@
 					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

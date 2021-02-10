@@ -38,9 +38,9 @@ enum SensorStatus: UInt16 {
     @objc optional func onStatus(status: [String: Any])
     @objc optional func onConnectionStatusUpdate(isConnected: Bool)
 }
-final class LSPatchManager {
+final class DataReceiverService {
     
-    static let shared = LSPatchManager()
+    static let shared = DataReceiverService()
     
     public var selectedPatchID: String = ""
     public var selectedBroadcastData: [String: Any]?
@@ -138,7 +138,7 @@ final class LSPatchManager {
     }
     
     func getLibVersion() -> String {
-        let bundle = Bundle(identifier: "com.hmicro.LSPatch")! // Get a reference to the bundle from your framework (not the bundle of the app itself!)
+        let bundle = Bundle(identifier: "com.ls.lspatch")! // Get a reference to the bundle from your framework (not the bundle of the app itself!)
         let build = bundle.infoDictionary!["CFBundleShortVersionString"] as! String
         return build
     }

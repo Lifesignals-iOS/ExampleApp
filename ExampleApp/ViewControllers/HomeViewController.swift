@@ -25,8 +25,8 @@ class HomeViewController: UIViewController {
         self.tableView.delegate = self
         self.tableView.dataSource = self
 
-        LSPatchManager.shared.initializePatch()
-        LSPatchManager.shared.delegate = self
+        DataReceiverService.shared.initializePatch()
+        DataReceiverService.shared.delegate = self
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
     private func getVersions() {
         let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         self.lblAppVersion.text = "App v" + appVersion + "   |"
-        self.lblLibVersion.text = "Lib v" + LSPatchManager.shared.getLibVersion()
+        self.lblLibVersion.text = "Lib v" + DataReceiverService.shared.getLibVersion()
     }
     
 
@@ -72,7 +72,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate{
             tableView.deselectRow(at: indexPath, animated: true)
             let patchId: String? = patchIds[indexPath.row]
             let brdCast =  discoveryObj[indexPath.row]
-                LSPatchManager.shared.select(patchId: patchId!, brdCast: brdCast)
+                DataReceiverService.shared.select(patchId: patchId!, brdCast: brdCast)
                 
             let viewController: UIViewController? = self.storyboard?.instantiateViewController(withIdentifier: "ConfigureViewController")
                 
