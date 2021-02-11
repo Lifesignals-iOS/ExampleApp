@@ -1,7 +1,7 @@
 
 
 # ExampleApp
-Example App for demonstrating the usage of LSPatch lib in an app.
+Example App is for demonstrating the usage of LSPatch lib in an app. The code should be used only as a reference. If you want to build a project, copy the DataReceiverService.swift and UIDeviceExtension.swift to the new project and continue the development. 
 
 # Xcode and Swift requirements
 Requires Xcode 12.4 and Swift 5.3.2
