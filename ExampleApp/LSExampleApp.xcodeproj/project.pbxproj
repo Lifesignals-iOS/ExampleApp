@@ -59,13 +59,13 @@
 /* Begin PBXFileReference section */
 		142D035223756C51003467AD /* PlottingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlottingViewController.swift; sourceTree = "<group>"; };
 		14869EFA23704C5A006D69A5 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
-		16074C5A23430C4100EF6753 /* ExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		16074C5A23430C4100EF6753 /* LSExampleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LSExampleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		16074C5D23430C4100EF6753 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		16074C6623430C4300EF6753 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		16074C6923430C4300EF6753 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		16074C6B23430C4300EF6753 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		16074C7023430C4400EF6753 /* ExampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		16074C7B23430C4400EF6753 /* ExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		16074C7023430C4400EF6753 /* LSExampleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LSExampleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		16074C7B23430C4400EF6753 /* LSExampleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LSExampleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		16074C8D23430C5C00EF6753 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		162916C323B9DBF500941033 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		163116542406451100B4AA46 /* GraphLineLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphLineLayer.swift; sourceTree = "<group>"; };
@@ -138,9 +138,9 @@
 		16074C5B23430C4100EF6753 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				16074C5A23430C4100EF6753 /* ExampleApp.app */,
-				16074C7023430C4400EF6753 /* ExampleAppTests.xctest */,
-				16074C7B23430C4400EF6753 /* ExampleAppUITests.xctest */,
+				16074C5A23430C4100EF6753 /* LSExampleApp.app */,
+				16074C7023430C4400EF6753 /* LSExampleAppTests.xctest */,
+				16074C7B23430C4400EF6753 /* LSExampleAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,9 +186,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		16074C5923430C4100EF6753 /* ExampleApp */ = {
+		16074C5923430C4100EF6753 /* LSExampleApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16074C8423430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleApp" */;
+			buildConfigurationList = 16074C8423430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleApp" */;
 			buildPhases = (
 				08BA5F4AD4A007640A828F4B /* [CP] Check Pods Manifest.lock */,
 				16074C5623430C4100EF6753 /* Sources */,
@@ -200,14 +200,14 @@
 			);
 			dependencies = (
 			);
-			name = ExampleApp;
+			name = LSExampleApp;
 			productName = RelayApp;
-			productReference = 16074C5A23430C4100EF6753 /* ExampleApp.app */;
+			productReference = 16074C5A23430C4100EF6753 /* LSExampleApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		16074C6F23430C4400EF6753 /* ExampleAppTests */ = {
+		16074C6F23430C4400EF6753 /* LSExampleAppTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16074C8723430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleAppTests" */;
+			buildConfigurationList = 16074C8723430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleAppTests" */;
 			buildPhases = (
 				C88AE17B921DC3B031082088 /* [CP] Check Pods Manifest.lock */,
 				16074C6C23430C4400EF6753 /* Sources */,
@@ -219,14 +219,14 @@
 			dependencies = (
 				16074C7223430C4400EF6753 /* PBXTargetDependency */,
 			);
-			name = ExampleAppTests;
+			name = LSExampleAppTests;
 			productName = RelayAppTests;
-			productReference = 16074C7023430C4400EF6753 /* ExampleAppTests.xctest */;
+			productReference = 16074C7023430C4400EF6753 /* LSExampleAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		16074C7A23430C4400EF6753 /* ExampleAppUITests */ = {
+		16074C7A23430C4400EF6753 /* LSExampleAppUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 16074C8A23430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleAppUITests" */;
+			buildConfigurationList = 16074C8A23430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleAppUITests" */;
 			buildPhases = (
 				B3C0517BD49144435A33D136 /* [CP] Check Pods Manifest.lock */,
 				16074C7723430C4400EF6753 /* Sources */,
@@ -238,9 +238,9 @@
 			dependencies = (
 				16074C7D23430C4400EF6753 /* PBXTargetDependency */,
 			);
-			name = ExampleAppUITests;
+			name = LSExampleAppUITests;
 			productName = RelayAppUITests;
-			productReference = 16074C7B23430C4400EF6753 /* ExampleAppUITests.xctest */;
+			productReference = 16074C7B23430C4400EF6753 /* LSExampleAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -267,7 +267,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 16074C5523430C4100EF6753 /* Build configuration list for PBXProject "ExampleApp" */;
+			buildConfigurationList = 16074C5523430C4100EF6753 /* Build configuration list for PBXProject "LSExampleApp" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -280,9 +280,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				16074C5923430C4100EF6753 /* ExampleApp */,
-				16074C6F23430C4400EF6753 /* ExampleAppTests */,
-				16074C7A23430C4400EF6753 /* ExampleAppUITests */,
+				16074C5923430C4100EF6753 /* LSExampleApp */,
+				16074C6F23430C4400EF6753 /* LSExampleAppTests */,
+				16074C7A23430C4400EF6753 /* LSExampleAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -421,12 +421,12 @@
 /* Begin PBXTargetDependency section */
 		16074C7223430C4400EF6753 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16074C5923430C4100EF6753 /* ExampleApp */;
+			target = 16074C5923430C4100EF6753 /* LSExampleApp */;
 			targetProxy = 16074C7123430C4400EF6753 /* PBXContainerItemProxy */;
 		};
 		16074C7D23430C4400EF6753 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 16074C5923430C4100EF6753 /* ExampleApp */;
+			target = 16074C5923430C4100EF6753 /* LSExampleApp */;
 			targetProxy = 16074C7C23430C4400EF6753 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -562,7 +562,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZSR48QZTGV;
 				ENABLE_BITCODE = NO;
@@ -585,9 +585,9 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
-				PRODUCT_NAME = ExampleApp;
-				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ls.exampleApp;
+				PRODUCT_NAME = LSExampleApp;
+				PROVISIONING_PROFILE_SPECIFIER = ExampleApp_AppStore_Profile;
 				SWIFT_OBJC_BRIDGING_HEADER = "ExampleApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -601,7 +601,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = ZSR48QZTGV;
 				ENABLE_BITCODE = NO;
@@ -624,9 +624,9 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				OTHER_CFLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ls.sampleapp;
-				PRODUCT_NAME = ExampleApp;
-				PROVISIONING_PROFILE_SPECIFIER = SampleAppDev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ls.exampleApp;
+				PRODUCT_NAME = LSExampleApp;
+				PROVISIONING_PROFILE_SPECIFIER = ExampleApp_AppStore_Profile;
 				SWIFT_OBJC_BRIDGING_HEADER = "ExampleApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -652,7 +652,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleApp.app/ExampleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LSExampleApp.app/LSExampleApp";
 			};
 			name = Debug;
 		};
@@ -674,7 +674,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExampleApp.app/ExampleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LSExampleApp.app/LSExampleApp";
 			};
 			name = Release;
 		};
@@ -721,7 +721,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		16074C5523430C4100EF6753 /* Build configuration list for PBXProject "ExampleApp" */ = {
+		16074C5523430C4100EF6753 /* Build configuration list for PBXProject "LSExampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16074C8223430C4400EF6753 /* Debug */,
@@ -730,7 +730,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16074C8423430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleApp" */ = {
+		16074C8423430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16074C8523430C4400EF6753 /* Debug */,
@@ -739,7 +739,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16074C8723430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleAppTests" */ = {
+		16074C8723430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleAppTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16074C8823430C4400EF6753 /* Debug */,
@@ -748,7 +748,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		16074C8A23430C4400EF6753 /* Build configuration list for PBXNativeTarget "ExampleAppUITests" */ = {
+		16074C8A23430C4400EF6753 /* Build configuration list for PBXNativeTarget "LSExampleAppUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				16074C8B23430C4400EF6753 /* Debug */,
