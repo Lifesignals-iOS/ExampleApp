@@ -152,9 +152,9 @@ extension MainViewController: DataReceiverServiceDelegate {
         DispatchQueue.main.async {
 
             let sensorData = data["SensorData"] as! [String: Any]
-//            if let ecg0 = sensorData["ECG0"] as? [Int] {
-//                self.ecgPlot.plot(ecg0, at: 0)
-//            }
+            if let ecg0 = sensorData["ECG0"] as? [Int] {
+                self.ecgPlot.plot(ecg0, at: 0)
+            }
             
             if let seq = sensorData["Seq"] as? UInt32 {
                 print("Rx \(seq)")
@@ -164,9 +164,6 @@ extension MainViewController: DataReceiverServiceDelegate {
             // 1.When the app is started, set the prevSeq as TotalAvailSequence from the Broadcast only once.
             //2. When each data is received, check if current sequence is greater than prev sequence. If Yes, the data is live.
             //3. Give to plot only if the data is Live.
-        
-            let points = [30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500, 30,100,500]
-            self.ecgPlot.plot(points, at: 0)
         }
     }
     func onStatus(status: [String: Any]) {
