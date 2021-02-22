@@ -12,7 +12,7 @@ Download the source code, and just open the Xcode project and run on an iPhone o
 # Description
 The LSPatch lib version 1.1.0 is linked to the project. LSPatch lib is a biosensor - app communicator which will handle the UDP and TCP communications with the patch and parses the sensor data into a Dictionary with key value pairs. 
 
-![Demo](Images/sample_app_gif.gif)
+![Demo](Images/Screen.png)
 
 The main classes in the Example App is given below:-
 
