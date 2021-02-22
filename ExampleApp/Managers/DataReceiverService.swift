@@ -1,6 +1,15 @@
 //
-//  LSPatchManager.swift
-//  SPatch
+//  DataReceiverService.swift
+//  This is a helper class to wire the LSpatch library. Any developer can either discard this class and create his own. Or even edit the class to cop with the usage of the project. The class provides helper methods for the user to understand whether the patch is connected or not. Similarly the patchStatus from the Capability of the broadcast message can be better understood using the enum "SensorStatus".
+
+//  The class determines that the patch is connected or not based on the data receival and the broadcast received. If the data is not received, and broadcast is also not rreceived in 12 sec, the onConnectionStatusUpdate delegate method will get called with "disconnected" status.
+
+//  The class will also issue the redirect command  to the selected patch in case the IP address of the phone changes.
+
+//  Instead of doing logics in different classes, this single class is enough for handling all the patch related communication logics. This is because, intantiating the LSPatch in each ViewController will not be feasible. The developer must take care that multiple LSPatch instances are not getting created, if he is developing on his own.
+
+//  APIs are defined for calling all lib APIs.
+
 //
 //  Created by Lifesignals on 24/04/20.
 //  Copyright © 2020 Lifesignals. All rights reserved.
@@ -32,7 +41,7 @@ enum SensorStatus: UInt16 {
         return (status & SensorStatus.Complete.rawValue) == SensorStatus.Complete.rawValue
     }
 }
-@objc protocol LSPatchManagerDelegate {
+@objc protocol DataReceiverServiceDelegate {
     @objc optional func onDiscovery(bcast: [String: Any])
     @objc optional func onData(data: [String: Any])
     @objc optional func onStatus(status: [String: Any])
@@ -46,7 +55,7 @@ final class DataReceiverService {
     public var selectedBroadcastData: [String: Any]?
     public var isConnected = false
     
-    public var delegate: LSPatchManagerDelegate? = nil
+    public var delegate: DataReceiverServiceDelegate? = nil
     
     private var lsPatch: LSPatch?
     var lastDataRxTime = Date()
@@ -57,6 +66,7 @@ final class DataReceiverService {
     private var connTimer: Timer? = nil // Until a START is given, if the broadcast is not received in 12 sec, the isConnected should be made false. Once started, the condition is checked when the connection "socket-timeout" is triggered.
     
     
+    // LSPatch lib intialization
     func initializePatch() {
         if (self.lsPatch != nil){
             return
@@ -132,8 +142,6 @@ final class DataReceiverService {
                 }
                 self?.delegate?.onStatus?(status: statusObj)
             }
-            
-            
         })
     }
     
@@ -141,10 +149,6 @@ final class DataReceiverService {
         let bundle = Bundle(identifier: "com.ls.lspatch")! // Get a reference to the bundle from your framework (not the bundle of the app itself!)
         let build = bundle.infoDictionary!["CFBundleShortVersionString"] as! String
         return build
-    }
-    
-    func identifyPatch(){
-        lsPatch?.identify()
     }
     
     func select(patchId: String,brdCast: [String: Any]) {
@@ -158,37 +162,47 @@ final class DataReceiverService {
         startConnCheckTimer()
     }
     
-    func reconfigure(ssid: String, password: String) {
-        lsPatch?.configureSSID(SSID: ssid, passwd: password)
+    func identify(){
+        lsPatch?.identify()
     }
     
-    func request(seqnceList: [UInt32]){
-        self.lsPatch?.requestData(sequenceList: seqnceList)
+    func reconfigure(ssid: String, password: String) {
+        lsPatch?.configureSSID(SSID: ssid, passwd: password)
     }
     
     func redirect(deviceIP: String){
         lsPatch?.redirect(ip: deviceIP)
     }
+    
+    func configure(configObj : [String: Any]) {
+        lsPatch?.configure(sensorConfig: configObj)
+    }
+    
     func start() {
         self.lsPatch?.start()
     }
     
     func commit() {
+        
+        // If LongSync = false, the patch will scan for hotspot in every 15 sec if connection is lost. If true, the scan will happen only after every 2 min.
         lsPatch?.commit(longSync: false)
     }
     
-    
-    func configurePatch(input : UInt16) {
-        if var bcData = self.selectedBroadcastData {
-            
-            var bc = bcData["ConfigurePatch"] as? Dictionary<String,Any>
-            bc?["PatchLife"] = input
-            bcData["ConfigurePatch"] = bc
-            
-            lsPatch?.configure(sensorConfig: bcData)
-        }
+    func request(seqnceList: [UInt32]){
+        
+        // If some data is lost due to patch going out of range, the app can request the data as a list if the number of lost packets is less than 100.
+        
+        // The request has to be given as 3 requests with seqnceList count as 100 - 100 - 55 at a time. The next bunch of requests can be given either after all the requested data is received or after 3 sec. The same sequence request should happen only after 3 sec.
+        
+        self.lsPatch?.requestData(sequenceList: seqnceList)
     }
     
+    func requestRange(start: UInt32, stop: UInt32) {
+        
+        // If the app has not obtained data for a long duration, then the request can be done as range request. At a time max of 32 requests can be given. If the patch's buffer count limit is reached, then the remaining requests are discarded.
+        lsPatch?.requestData(seqStart: start, seqEnd: stop)
+    }
+   
     func stopAcq() {
         lsPatch?.stopAcquisition()
     }
@@ -197,8 +211,16 @@ final class DataReceiverService {
         lsPatch?.turnOff(eraseFlash: true)
     }
     
-    func requestRange(start: UInt32, stop: UInt32) {
-        lsPatch?.requestData(seqStart: start, seqEnd: stop)
+    func finish(){
+        lsPatch?.finish()
+        selectedPatchID = ""
+        selectedBroadcastData = nil
+        lsPatch = nil
+        lastBroadcastReceivedTime = 0
+        DispatchQueue.main.async {
+            self.connTimer?.invalidate()
+            self.connTimer = nil
+        }
     }
     
     func isPatchStreaming() -> Bool {
@@ -217,19 +239,6 @@ final class DataReceiverService {
             return stTimeRet
         }
         return 0
-    }
-
-    func finish(){
-        lsPatch?.finish()
-        selectedPatchID = ""
-        selectedBroadcastData = nil
-        lsPatch = nil
-        lastBroadcastReceivedTime = 0
-        DispatchQueue.main.async {
-            self.connTimer?.invalidate()
-            self.connTimer = nil
-        }
-        
     }
     
     private func startConnCheckTimer() {

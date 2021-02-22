@@ -22,7 +22,6 @@ class LineChart: UIView {
     private var timer: Timer?
     private var isTimerRunning = false
     
-    private weak var plottingVC: PlottingViewController?
     
     @IBInspectable var lineColor: UIColor = UIColor.blue {
         didSet {
@@ -84,17 +83,16 @@ class LineChart: UIView {
     }
     
     
-    func addPlot(yCenter: Int32, height: Int32, yValuePerPixel: CGFloat, spacing: Int32, graphColor: CGColor, plotView: PlottingViewController) {
+    func addPlot(yCenter: Int32, height: Int32, yValuePerPixel: CGFloat, spacing: Int32, graphColor: CGColor) {
         let width = Int32(frame.width)
         let graphLayer = GraphLineLayer(yCenter: yCenter, width: width, height: height, pixelPerSec: hScale, spacing: spacing, valuePerPixel: yValuePerPixel, graphColor: graphColor)
         lineLayers.append(graphLayer)
-        let yMaximum = yCenter + height/2
-        if yMaximum > mHeight {
+        let yMaximum = yCenter //+ height/2
+//        if yMaximum > mHeight {
             mHeight = yMaximum
-        }
+//        }
         layer.addSublayer(graphLayer)
         
-        self.plottingVC = plotView
         
     }
 
@@ -152,7 +150,6 @@ class LineChart: UIView {
         else {
             timer?.invalidate()
             timer = nil
-           // self.plottingVC?.didUpdateConn(isConnected: false, date: dateString)
         }
     }
     
