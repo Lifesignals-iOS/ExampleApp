@@ -36,23 +36,22 @@ In addition to the above, the DataReceiverService also provides helper methods t
 This is an enum which provides the methods to identify the sensor state - whether the biosensor is in Initial/ Streaming/ Configured/ Committed/ ProcedureCompleted.
 
 ## ViewControllers
-### HomeViewController
-Intiializes the LSPatch and displays the biosensor Ids extracted from the broadcast data received. 
+### MainViewController
+The usage of the LSpatch is demonstrated in this class. Each API call is demonstrated using button clicks. The user has to switch on the hotspot and get the patch connected before executing the commands.
+
+To initialize the LSpatch and start scanning for biosensors:-
+
 `DataReceiverService.shared.initializePatch()`
 
 `DataReceiverService.shared.delegate = self`
 
-User can select one biosensor ID from the list.
+User can select one biosensor ID from the discovered list.
 
 `DataReceiverService.shared.select(patchId: patchId, brdCast: brdCast)`
 
-### ConfigureViewController
 The user can select a sensor life(how many minutes of procedure) and click Configure. 
 
 `DataReceiverService.shared.configure(input: pLife)`
-
-### PlottingViewController
-The user can select different commands from the Menu. The response of different commands will be available as status on the screen. 
 
 To start a biosensor streaming:-
 
